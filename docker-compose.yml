@@ -1,0 +1,17 @@
+# https://docs.docker.com/compose/compose-file/
+version: '3.7'
+#networks:
+#  default:
+#volumes:
+#  recaptcha-data:
+services:
+  testbird_admin:
+    image: template:1
+    container_name: "template"
+    volumes:
+      - "$PWD:/site_api"
+    working_dir: "/site_api"
+    ports:
+      - "18004:8000"
+#    command:
+#      "python3 manage.py runserver 0.0.0.0:8000"
