@@ -12,7 +12,7 @@ class App(models.Model):
     platform = models.IntegerField(default=1, choices=APP_PLATFORM, verbose_name='app类型', help_text='app类型')
     name = models.CharField(max_length=20, verbose_name="App名字", help_text="App名字")
     package = models.CharField(max_length=100, verbose_name="package下载地址", help_text="package下载地址")
-    package_name = models.CharField(max_length=100, verbose_name="package名称", help_text="package名称")
+    package_name = models.CharField(max_length=100, verbose_name="package名称123", help_text="package名称123")
     package_backup_path = models.CharField(max_length=100, verbose_name="package备份文件路径", help_text="package备份文件路径")
     create_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间", help_text='创建时间')
     update_time = models.DateTimeField(auto_now=True, verbose_name="修改时间", help_text='修改时间')

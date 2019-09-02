@@ -36,7 +36,10 @@ services:
       - "18005:8000"
     networks:
       - app-tier
-    command: python3 src/manage.py runserver 0.0.0.0:8000 --settings=settings.local
+    command: 
+      # - python3 src/manage.py migrate --noinput --settings=settings.local
+        # python3 src/manage.py collectstatic --noinput --settings=settings.local
+        python3 src/manage.py runserver 0.0.0.0:8000 --settings=settings.local
     # python3 ../src/manage.py makemigrations  && python3 ../src/manage.py 0.0.0.0:8000 --settings=settings.local
     # python3 src/manage.py makemigrations  && python3 src/manage.py 0.0.0.0:8000 --settings=settings.local
 
