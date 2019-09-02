@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 from .base import *
+MYSQL_HOST = os.environ.get("MARIADB_HOST")
+MYSQL_PORT = os.environ.get("MARIADB_PORT")
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -18,8 +20,12 @@ DATABASES = {
         'NAME': 'emu_master',
         'USER': 'emu_master_user',
         'PASSWORD': '123456',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'HOST': MYSQL_HOST,
+        'PORT': MYSQL_PORT,
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            'charset': 'utf8mb4',
+        },
     }
 }
 

@@ -17,26 +17,13 @@ from django.contrib import admin
 from rest_framework import routers
 from rest_framework.documentation import include_docs_urls
 from django.conf.urls import url, include
-from apps.device.rest.viewsets import SlaveViewSet, PhoneViewSet
-from apps.task.views import TaskReportView, PostbackView, PostBackViewV2
-from apps.task.rest.viewsets import AppViewSet, ScheduleViewSet, TaskViewSet, ScriptViewSet, InheritTask, CountryView
-
+from apps.task.rest.viewsets import AppViewSet
 router = routers.DefaultRouter()
-router.register(r'v1/slave', SlaveViewSet)
-router.register(r'v1/phone', PhoneViewSet)
 router.register(r'v1/app', AppViewSet)
-router.register(r'v1/schedule', ScheduleViewSet)
-router.register(r'v1/task', TaskViewSet)
-router.register(r'v1/scripts', ScriptViewSet)
 
 
 urlpatterns = [
     url(r'^backend/admin/', admin.site.urls),
     url(r'^backend/api/', include(router.urls)),
     url(r'^backend/docs/', include_docs_urls(title="wechat_master", authentication_classes=[], permission_classes=[])),
-    url(r'^backend/api/v1/report/task/$', TaskReportView.as_view()),
-    url(r'^backend/api/v1/inherit_task/', InheritTask.as_view()),
-    url(r'^backend/api/v1/country/', CountryView.as_view()),
-    url(r'^backend/api/v1/postback/', PostbackView.as_view()),
-    url(r'^backend/api/v2/postback/', PostBackViewV2.as_view())
 ]

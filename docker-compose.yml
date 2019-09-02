@@ -1,17 +1,74 @@
 # https://docs.docker.com/compose/compose-file/
 version: '3.7'
-#networks:
-#  default:
-#volumes:
-#  recaptcha-data:
+networks:
+  app-tier:
+    driver: bridge
+
 services:
+  # testbird_admin_init:
+  #   image: template:1
+  #   container_name: "testbird_admin_init"
+  #   depends_on:
+  #     - mariadb
+  #   volumes:
+  #     - "$PWD:/site_api"
+  #   environment:
+  #     - MARIADB_HOST=mariadb
+  #     - MARIADB_PORT=3306
+  #   working_dir: "/site_api"
+  #   command:
+  #     - "python3"
+  #     - "src/manage.py"
+  #     - "makemigrations"
   testbird_admin:
     image: template:1
-    container_name: "template"
+    container_name: "template3"
+    depends_on:
+      - mariadb
+      # - testbird_admin_init
     volumes:
-      - "$PWD:/site_api"
+      - "./:/site_api"
     working_dir: "/site_api"
+    environment:
+      - MARIADB_HOST=mariadb
+      - MARIADB_PORT=3306
     ports:
-      - "18004:8000"
+      - "18005:8000"
+    networks:
+      - app-tier
+    command: python3 src/manage.py runserver 0.0.0.0:8000 --settings=settings.local
+    # python3 ../src/manage.py makemigrations  && python3 ../src/manage.py 0.0.0.0:8000 --settings=settings.local
+    # python3 src/manage.py makemigrations  && python3 src/manage.py 0.0.0.0:8000 --settings=settings.local
+
+  fix-mariadb-permissions:
+    image: 'bitnami/mariadb:10.3.17'
+    container_name: 'mariadb-fix'
+    user: root
+    command: chown -R 1001:1001 /bitnami
+    volumes:
+      - './mariadb_data:/bitnami/mariadb'
+      - './my_custom.cnf:/opt/bitnami/mariadb/conf/my_custom.cnf:ro'
+  mariadb:
+    image: 'bitnami/mariadb:10.3.17'
+    container_name: 'mariadb'
+    depends_on:
+      - fix-mariadb-permissions
+    ports:
+      - '3306:3306'
+    volumes:
+      - './mariadb_data:/bitnami/mariadb'
+      - './my_custom.cnf:/opt/bitnami/mariadb/conf/my_custom.cnf:ro'
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - MARIADB_EXTRA_FLAGS=--max-connect-errors=1000 --max_connections=155
+      - MARIADB_ROOT_PASSWORD=123456
+      - MARIADB_USER=emu_master_user
+      - MARIADB_PASSWORD=123456
+      - MARIADB_DATABASE=emu_master
+    # you can set restart: on-failure:3 or unless-stopped
+    restart: always
+    networks:
+      - app-tier
+
 #    command:
 #      "python3 manage.py runserver 0.0.0.0:8000"

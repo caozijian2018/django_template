@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'django_crontab',
-    'apps.device',
     'apps.task'
 ]
 

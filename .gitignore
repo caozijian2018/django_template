@@ -106,3 +106,4 @@ src/.idea/
 static_file/app/*
 static_file/app_resc/*
 static_file/script/*
+mariadb_data/*
