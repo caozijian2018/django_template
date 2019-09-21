@@ -3,6 +3,8 @@ version: '3.7'
 networks:
   app-tier:
     driver: bridge
+volumes:
+  share_data: {}
 
 services:
   # testbird_admin_init:
@@ -76,5 +78,24 @@ services:
     networks:
       - app-tier
 
+  # nginx
+  nginx:
+    container_name: "nginx"
+    image: 'nginx:1.17.2-alpine'
+    ports:
+      - "80:18005"
+    volumes:
+      - "./nginx.conf:/etc/nginx/nginx.conf"
+      - "./ssl-nginx.prod.conf:/etc/nginx/conf.d/ssl-nginx.prod.conf"
+      - "./logs/nginx:/home"
+      - "share_data:/share_data"
+    restart: always
+    networks:
+      - app-tier
+    ulimits:
+      nproc: 409600
+      nofile:
+        soft: 409600  #文件句柄数为 20000（软限制，应用可以随时修改，不能超过硬限制）
+        hard: 409600  #文件句柄数为 40000（系统硬限制，只能 root 用户提高）
 #    command:
 #      "python3 manage.py runserver 0.0.0.0:8000"
