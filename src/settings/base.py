@@ -38,8 +38,17 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'django_crontab',
-    'apps.task'
+    'apps.task',
+    'apps.accounts'
+
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -52,6 +61,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'apps.urls'
+
+AUTH_USER_MODEL = 'accounts.User'
 
 TEMPLATES = [
     {
@@ -182,8 +193,8 @@ LOGGING = {
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 APPEND_SLASH = True
 STATIC_URL = '/backend/static/'
-
 STATIC_ROOT = os.path.normpath(os.path.join(SITE_DIR, 'assets'))
 PHONE_HEARTBEAT_TIMEOUT = 60
 SLAVE_HEARTBEAT_TIMEOUT = 90
 RUN_SCHEDULE_TIMEOUT = 10
+IMGS_FOLDER = "img"

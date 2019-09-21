@@ -17,13 +17,21 @@ from django.contrib import admin
 from rest_framework import routers
 from rest_framework.documentation import include_docs_urls
 from django.conf.urls import url, include
-from apps.task.rest.viewsets import AppViewSet
+from apps.task.rest.viewsets import NewsViewSet, ImgsView
+from apps.utils.web_token_serializer import custom_obtain_jwt_token
+
 router = routers.DefaultRouter()
-router.register(r'v1/app', AppViewSet)
+# router.register(r'v1/app', AppViewSet)
+router.register(r'v1/news', NewsViewSet)
+# router.register(r'v1/imgs', ImgsViewSet)
+
+
 
 
 urlpatterns = [
     url(r'^backend/admin/', admin.site.urls),
     url(r'^backend/api/', include(router.urls)),
-    url(r'^backend/docs/', include_docs_urls(title="wechat_master", authentication_classes=[], permission_classes=[])),
+    url(r'^backend/docs/', include_docs_urls(title="testbird admin", authentication_classes=[], permission_classes=[])),
+    url(r'^backend/api/v1/imgs', ImgsView.as_view()),
+     url(r'^backend/api/v1/login/', custom_obtain_jwt_token)
 ]

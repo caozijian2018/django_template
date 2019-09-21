@@ -33,8 +33,7 @@ DATABASES = {
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE_DIR = os.path.dirname(BASE_DIR)
 STATIC_FILE_DIR = os.path.join(SITE_DIR, "static_file")
-
-FILE_PATH_PREFIX = STATIC_FILE_DIR
+FILE_PATH_PREFIX = STATIC_ROOT
 APP_FOLDER = "app"
 SLAVE_PORT = 8000
 SCRIPT_FOLDER = "script"

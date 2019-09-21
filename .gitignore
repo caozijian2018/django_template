@@ -81,7 +81,6 @@ celerybeat-schedule
 # virtualenv
 venv/
 ENV/
-
 # Spyder project settings
 .spyderproject
 
@@ -106,4 +105,4 @@ src/.idea/
 static_file/app/*
 static_file/app_resc/*
 static_file/script/*
-/mariadb_data/*
+/mariadb_data
